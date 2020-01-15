@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/styles.scss" />
+    <link rel="stylesheet" href="./styles/weather-icons.min.css" />
+</head>
+
+<body>
+    <header>
+        <h1 id="app-header"><i class="wi wi-day-sunny"></i> Weather APP<h1>
+    </header>
+
+    <form id="location-input">
+        <input type="text" name="city" id="cityInput" autocomplete="off" placeholder="Your city">
+        <input type="text" name="country" id="countryInput" autocomplete="off" placeholder="Your country(optional)">
+        <input type="submit" value="Get Forecast" id="getWeather">
+    </form>
+    <i class="wi wi-day-sunny" id="weather-logo"></i>
+    <div id="location">
+        <p id="city">London</p>
+        <span id="lon">(lon: 0101</span>
+        <span id="lat">lat: 1010)</span>
+    </div>
+    <div id="temperature">
+        <div class="temp-col">
+            <p class="temp" id="temp-act">Actual temperature: 1°</p>
+            <p class="temp" id="temp-min">Min temp: 1°</p>
+        </div>
+        <div class="temp-col">
+            <p class="temp" id="temp-feels">Feels like: 1°</p>
+            <p class="temp" id="temp-max">Max temp: 1°</p>
+        </div>
+    </div>
+    <div id="other-weather">
+        <p class="other" id="humidity">Humidity: 0%</p>
+        <p class="other" id="pressure">Pressure: 0mm</p>
+        <p class="other" id="precipitation">Precipitation : 0mm</p>
+    </div>
+
+    <div id="wind">
+        <p id="gust"></p>
+        <p id="speed"></p>
+        <p id="deg"></p>
+    </div>
+    <div id="cloudiness">
+        <p id="clouds"></p>
+    </div>
+
+    <i class="wi wi-day-sunny"></i>
+
+    <script src="./app.js"></script>
+</body>
+
+</html>

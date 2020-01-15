@@ -1,0 +1,197 @@
+header {
+    margin: 40px auto;
+}
+
+#app-header {
+    /* margin: 0 auto; */
+    text-align: center;
+    color: white;
+    font-size: 40px;
+}
+
+#location-input {
+    text-align: center;
+    margin: 20px;
+}
+
+#temperature {
+    margin: 20px auto;
+    justify-content: center;
+    width: 600px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-weight: normal;
+    font-size: 24px;
+    transition: all 1s ease;
+}
+
+#other-weather {
+    margin: 20px auto;
+    justify-content: center;
+    width: 600px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-weight: normal;
+    font-size: 24px;
+    transition: all 1s ease;
+}
+
+.temp-col {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 50%;
+    // justify-content: ;
+}
+
+.temp,
+.other {
+    margin: 20px;
+    text-align: center;
+    color: rgb(39, 37, 37);
+}
+
+#weather-logo {
+    // margin: 10px auto;
+    text-align: center;
+    font-size: 144px;
+    color: white;
+    display: block;
+    line-height: normal;
+    // margin: 50px;
+}
+
+body {
+    /* background-image: url("../img//pexels-photo-rain.jpeg"); */
+    // background-image: url("../img//pexels-photo-mountains.jpeg");
+    background-image: url("../img//pexels-photo-red-skies.jpeg");
+    background-repeat: repeat-y;
+    /* color: rgb(216, 212, 212); */
+}
+
+form input[name="city"],
+form input[name="country"] {
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 0%;
+    border: none;
+    border-bottom: 2px solid rgb(207, 207, 207);
+    outline: none;
+    padding: 0%;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 24px;
+    margin: 20px;
+}
+
+form input:focus {
+    /* width: 100px; */
+    background-color: transparent;
+    border-bottom: 2px solid rgb(81, 115, 189);
+}
+
+form input::placeholder {
+    color: white;
+}
+
+input[type="submit"] {
+    background-color: teal;
+    border: none;
+    color: white;
+    font-size: 24px;
+    border-radius: 10%;
+}
+
+#location {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-size: 22px;
+    & p {
+        font-weight: bold;
+        margin: 0;
+        font-size: 40px;
+    }
+}
+
+/* button {
+    display: inline-block;
+    font-family: "Montserrat", "Trebuchet MS", Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    padding: 0.8em 1.4em;
+    padding-right: 4.7em;
+    background: @button-colour;
+    border: none;
+    color: white;
+    transition: 0.2s;
+    &:before,
+    &:after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        padding-top: inherit;
+        padding-bottom: inherit;
+        width: 2.8em;
+        content: "\00a0";
+        font-family: "FontAwesome", sans-serif;
+        font-size: 1.2em;
+        text-align: center;
+
+        transition: 0.2s;
+        transform-origin: 50% 60%;
+    }
+    &:before {
+        background: @button-tint;
+    }
+    &:hover {
+        background: darken(@button-colour, 10%);
+    }
+    &:active,
+    &:focus {
+        background: darken(@button-colour, 30%);
+        outline: none;
+    }
+}
+
+.button {
+    min-width: 15em;
+}
+
+.arrow {
+    background: #fe5f55;
+    &:hover {
+        background: darken(#fe5f55, 10%);
+    }
+    &:active,
+    &:focus {
+        background: darken(#fe5f55, 30%);
+    }
+    &:after {
+        content: "\F054";
+    }
+    &:hover:after {
+        -webkit-animation: bounceright 0.3s alternate ease infinite;
+        animation: bounceright 0.3s alternate ease infinite;
+    }
+}
+
+@-webkit-keyframes bounceright {
+    from {
+        -webkit-transform: translateX(0);
+    }
+    to {
+        -webkit-transform: translateX(3px);
+    }
+}
+
+@keyframes bounceright {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(3px);
+    }
+} */
