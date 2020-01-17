@@ -1,7 +1,8 @@
 import { API_key } from "./env.json";
 
 const state = {
-    city: ""
+    city: "",
+    country: ""
 };
 
 const tempActual_p = document.getElementById("temp-act");
@@ -12,6 +13,7 @@ const getWeather_but = document.getElementById("getWeather");
 const cityInput_inp = document.getElementById("cityInput");
 const countryInput_inp = document.getElementById("countryInput");
 const weatherLogo_icon = document.getElementById("weather-logo");
+const inputError_div = document.getElementById("input-error");
 
 console.log(weatherLogo_icon.classList.value);
 
@@ -21,7 +23,12 @@ const onCityChange = e => {
     state.city = e.target.value;
 };
 
-cityInput_inp.addEventListener("change", onCityChange);
+const onCountryChange = e => {
+    state.country = e.target.value;
+};
+
+cityInput_inp.addEventListener("input", e => onCityChange(e));
+countryInput_inp.addEventListener("input", e => onCountryChange(e));
 
 const getWeatherData = async (city, country) => {
     const api_call = await fetch(
@@ -29,10 +36,19 @@ const getWeatherData = async (city, country) => {
             country !== "" ? "," + country : ""
         }&appid=${API_key}`
     );
-    const response = await api_call.json();
-    console.log(response);
+    console.log(api_call.ok);
+    console.log(api_call.status);
+    if (api_call.status !== 200) {
+        console.log(api_call.status);
+        console.log(api_call.statusText);
+        // return Promise.reject([api_call.status, api_call.statusText]);
+        throw new Error([api_call.status, api_call.statusText]);
+
+        // console.log(e);
+    }
+    // console.log(response);
     // console.log((response.main.temp - 273.15).toFixed(2));
-    return response;
+    // return response;
 };
 
 // Celsius = Kelvin - 273.15
@@ -57,21 +73,75 @@ const setTemperature = weather => {
     tempMin_p.innerHTML = tempMin;
 };
 
+const checkCityInput = () => {
+    console.log(state);
+    // console.log(state.city === "" ? false : true);
+    return state.city === "" ? false : true;
+};
+
+const showEmptyCityError = () => {
+    cityInput_inp.placeholder = "Enter a city";
+    cityInput_inp.classList.value = "input-city-error";
+    setTimeout(() => hideEmptyCityError(), 1500);
+};
+//! How to make value change smooth
+const hideEmptyCityError = () => {
+    cityInput_inp.placeholder = "Your city";
+    cityInput_inp.classList.value = "";
+};
+
+const showInputCityError = message => {
+    let errMessage = message;
+    console.log(message);
+    switch (message) {
+        case "TypeError: Failed to fetch":
+            errMessage = "Check your internet connection";
+            break;
+    }
+    if ((message = "TypeError: Failed to fetch")) {
+        errMessage = "Check your internet connection";
+    }
+    console.log(errMessage);
+    inputError_div.innerHTML = errMessage;
+    inputError_div.classList.value = "input-error";
+    setTimeout(() => hideInputCityError(), 6000);
+};
+
+const hideInputCityError = () => {
+    inputError_div.classList.value = "hide";
+};
+
 const setWeather = e => {
     e.preventDefault();
 
-    const city = cityInput_inp.value;
-    const country = countryInput_inp.value;
-    console.log(city);
+    const isCityEntered = checkCityInput();
 
-    const weather = getWeatherData(city, country);
-    weather.then(result => {
-        if (result.message !== undefined) {
-            console.log(result.message);
-        } else {
-            setTemperature(result);
-        }
-    });
+    if (!isCityEntered) {
+        console.log(isCityEntered);
+        showEmptyCityError();
+    } else {
+        const { city, country } = state;
+        // let weather;
+        const res = getWeatherData(city, country);
+        res.then(data => {
+            console.log("asdasd");
+            setTemperature(data);
+        }).catch(e => {
+            console.log(e + " Throwed an error");
+            showInputCityError(e);
+        });
+        // .catch(console.log(object));
+        // console.log(weather);
+        // weather.then(result => {
+        //     if (result.message !== undefined) {
+        //         console.log(result.message);
+        //         showInputCityError();
+        //     } else {
+        //         setTemperature(result);
+        //     }
+        // });
+    }
+
     // console.log(navigator.geolocation);
 };
 

@@ -1,0 +1,19 @@
+{
+    "name": "weather-app-vanilla-js",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/app.js",
+    "scripts": {
+        "start": "parcel serve src/index.html"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.8.3",
+        "@babel/plugin-transform-runtime": "^7.8.3",
+        "@babel/runtime": "^7.8.3",
+        "parcel": "^1.12.4",
+        "sass": "^1.24.4"
+    }
+}
