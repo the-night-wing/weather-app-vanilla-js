@@ -89,20 +89,55 @@ input[name="city"].input-city-error::placeholder {
     color: red;
 }
 
-input[type="submit"] {
+input[type="submit"],
+#geo-button {
     background-color: teal;
     border: none;
     color: white;
     font-size: 24px;
-    border-radius: 10%;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type="submit"]:hover,
+#geo-button:hover {
+    background-color: rgb(29, 182, 182);
+}
+
+#geo-button {
+    margin: 0 20px;
+}
+
+.geolocation {
+    color: white;
+    font-size: 32px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.forecast-options {
+    width: 900px;
+    margin: 0 auto;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(
+        90deg,
+        rgba(2, 0, 36, 0.3) 0%,
+        rgba(181, 45, 186, 0.3) 0%,
+        rgba(157, 59, 232, 0.3) 100%
+    );
+    border-radius: 15px;
 }
 
 .forecast-options p {
+    position: relative;
     color: white;
     font-size: 32px;
     text-align: center;
     font-weight: bold;
     cursor: pointer;
+    margin-bottom: 0;
+    opacity: 1;
 }
 
 .checkboxes {
@@ -120,12 +155,12 @@ input[type="submit"] {
 }
 
 .forecast-options-show {
-    animation: forecast-options-slide-out 2s ease;
+    animation: forecast-options-slide-out 1s ease-out;
     height: 50px;
 }
 
 .forecast-options-hide {
-    animation: forecast-options-slide-in 2s ease;
+    animation: forecast-options-slide-in 1s ease-in;
 }
 
 .input-error {
@@ -195,16 +230,19 @@ input[type="submit"] {
 @keyframes fade-out {
     0% {
         opacity: 0;
-        // border-bottom: 0px solid red;
     }
     100% {
         opacity: 1;
-        // border-bottom: 2px solid red;
     }
-    // 100% {
-    // opacity: 0;
-    // border-bottom: 0px solid red;
-    // }
+}
+
+@keyframes fade-out-2 {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes input-error-slide {
@@ -233,11 +271,16 @@ input[type="submit"] {
 @keyframes forecast-options-slide-out {
     0% {
         height: 0px;
+        // line-height: 0;
+        // padding: 0 1em;
         opacity: 0;
     }
     100% {
         height: 50px;
         opacity: 1;
+        // line-height: 1;
+        // padding-top: 1em;
+        // padding-bottom: 1em;
     }
 }
 
@@ -245,9 +288,76 @@ input[type="submit"] {
     0% {
         height: 50px;
         opacity: 1;
+        // line-height: 1;
+        // padding-top: 1em;
+        // padding-bottom: 1em;
     }
     100% {
         height: 0px;
         opacity: 0;
+        // padding: 0 1em;
+        // opacity: 0;
     }
+}
+
+.arrow {
+    width: 3vmin;
+    height: 3vmin;
+    box-sizing: border-box;
+    position: absolute;
+    left: 90%;
+    top: 5%;
+
+    &::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        border-width: 0.8vmin 0.8vmin 0 0;
+        border-style: solid;
+        border-color: #fafafa;
+        transition: 0.2s ease;
+        display: block;
+        transform-origin: 100% 0;
+    }
+
+    &:after {
+        content: "";
+        float: left;
+        position: relative;
+        top: -100%;
+        width: 100%;
+        height: 100%;
+        border-width: 0 0.8vmin 0 0;
+        border-style: solid;
+        border-color: #fafafa;
+        transform-origin: 100% 0;
+        transition: 0.3s ease;
+    }
+
+    &:hover::after {
+        transform: rotate(45deg);
+        border-color: rgb(76, 54, 156);
+        height: 120%;
+    }
+    &:hover::before {
+        border-color: rgb(76, 54, 156);
+        transform: scale(0.8);
+    }
+}
+
+.arrow-down {
+    transform: rotate(135deg);
+    animation: fade-out-2 1s ease-out;
+}
+
+.arrow-up {
+    top: 35%;
+    left: 89%;
+    transform: rotate(-45deg);
+    animation: fade-out 1s ease-in;
+}
+
+.geo {
+    color: white;
+    font-size: 20px;
 }

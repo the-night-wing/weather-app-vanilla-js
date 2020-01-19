@@ -8,10 +8,13 @@
     <title>Document</title>
     <link rel="stylesheet" href="./styles/styles.scss" />
     <link rel="stylesheet" href="./styles/weather-icons.min.css" />
+    <script src="https://kit.fontawesome.com/3891866984.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <header>
+        <!-- <i style="font-size:24px" class="fa">&#xf041;</i> -->
+
         <h1 id="app-header"><i class="wi wi-day-sunny"></i> Weather APP<h1>
     </header>
 
@@ -20,8 +23,14 @@
         <input type="text" name="country" id="countryInput" autocomplete="off" placeholder="Your country(optional)">
         <input type="submit" value="Get Forecast" id="getWeather">
     </form>
+    <div class="geolocation">
+        <span>OR</span>
+        <button id="geo-button"><i class="fas fa-map-marker-alt geo"></i> Identify your location</button>
+    </div>
     <div class="forecast-options">
-        <p id="forecast-options-p">Choose what information do you need</p>
+        <p id="forecast-options-p">Choose what information do you need<i id="forecast-options-arrow"
+                class="arrow arrow-down"></i>
+        </p>
         <div class="checkboxes hide" id="forecast-checkboxes">
             <label>
                 <input type="checkbox" id="zalupa" name="actual-temp-cb" checked>
@@ -57,8 +66,8 @@
     <i class="wi wi-day-sunny" id="weather-logo"></i>
     <div id="location">
         <p id="city">London</p>
-        <span id="lon">(lon: 0101</span>
-        <span id="lat">lat: 1010)</span>
+        <span>(lon: <span id="lon">0101</span> </span>
+        <span>lat: <span id="lat">1010</span>)</span>
     </div>
     <div id="temperature">
         <div class="temp-col">

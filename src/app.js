@@ -16,7 +16,12 @@ const getWeather_but = document.getElementById("getWeather");
 const cityInput_inp = document.getElementById("cityInput");
 const countryInput_inp = document.getElementById("countryInput");
 const weatherLogo_icon = document.getElementById("weather-logo");
+const cityName_p = document.getElementById("city");
+const longitude_span = document.getElementById("lon");
+const latitude_span = document.getElementById("lat");
 const inputError_div = document.getElementById("input-error");
+
+const geolocation_but = document.getElementById("geo-button");
 
 const tempActual_cb = document.getElementsByName("actual-temp-cb")[0];
 const tempFeels_cb = document.getElementsByName("feels-like-cb")[0];
@@ -26,6 +31,9 @@ const humidity_cb = document.getElementsByName("humidity-cb")[0];
 const pressure_cb = document.getElementsByName("pressure-cb")[0];
 const precipitation_cb = document.getElementsByName("precipitation-cb")[0];
 
+const forecastOptionsArrow_i = document.getElementById(
+    "forecast-options-arrow"
+);
 const forecastOptions_p = document.querySelector(".forecast-options > p");
 const checkboxes_div = document.getElementById("forecast-checkboxes");
 // console.log(weatherLogo_icon.classList.value);
@@ -50,7 +58,7 @@ const paragraphs = [
 ];
 
 let forecastOptions = false;
-getWeather_but.addEventListener("click", e => setWeather(e));
+getWeather_but.addEventListener("click", e => setWeatherForCity(e));
 
 const onCityChange = e => {
     state.city = e.target.value;
@@ -76,62 +84,53 @@ for (let i = 0; i < checkboxes_.length; i++) {
     );
 }
 
-// tempActual_cb.addEventListener("click", () =>
-//     hideByCheckBox(tempActual_p, tempActual_cb)
-// );
-
-// tempFeels_cb.addEventListener("click", () =>
-//     hideByCheckBox(tempFeels_p, tempFeels_cb)
-// );
-
-// tempMin_cb.addEventListener("click", () =>
-//     hideByCheckBox(tempMin_p, tempMin_cb)
-// );
-
-// tempMax_cb.addEventListener("click", () =>
-//     hideByCheckBox(tempMax_p, tempMax_cb)
-// );
-
-// humidity_cb.addEventListener("click", () =>
-//     hideByCheckBox(humidity_p, humidity_cb)
-// );
-
-// pressure_cb.addEventListener("click", () =>
-//     hideByCheckBox(pressure_p, pressure_cb)
-// );
-
-// precipitation_cb.addEventListener("click", () =>
-//     hideByCheckBox(precipitation_p, precipitation_cb)
-// );
-
 const onForecastOptionsClick = () => {
     if (!forecastOptions) {
         checkboxes_div.classList.value = "checkboxes forecast-options-show";
+        forecastOptionsArrow_i.classList.value = "arrow arrow-up";
         forecastOptions = !forecastOptions;
         console.log("object");
     } else {
         checkboxes_div.classList.value = "checkboxes forecast-options-hide";
+        forecastOptionsArrow_i.classList.value = "arrow arrow-down";
         forecastOptions = !forecastOptions;
         console.log("object11");
         setTimeout(() => {
             checkboxes_div.classList.value = "checkboxes hide";
-        }, 2000);
+        }, 1000);
     }
 };
+
+const showCurrentPosition = position => {
+    console.log(position.coords.latitude);
+    console.log(position.coords.longitude);
+};
+
+const getGeolocation = () => {
+    if (navigator.geolocation) {
+        console.log("Support");
+        navigator.geolocation.getCurrentPosition(setWeatherForLocation);
+    } else {
+        console.log("Doesn't support");
+    }
+};
+
+// getGeolocation();
 
 cityInput_inp.addEventListener("input", e => onCityChange(e));
 countryInput_inp.addEventListener("input", e => onCountryChange(e));
 
-forecastOptions_p.onclick = onForecastOptionsClick;
+geolocation_but.addEventListener("click", getGeolocation);
 
-const getWeatherData = async (city, country) => {
+forecastOptions_p.addEventListener("click", onForecastOptionsClick);
+
+const getWeatherDataByCity = async (city, country) => {
     const api_call = await fetch(
         `http://api.openweathermap.org/data/2.5/weather?q=${city}${
             country !== "" ? "," + country : ""
         }&appid=${API_key}`
     );
-    console.log(api_call.ok);
-    console.log(api_call.status);
+
     if (api_call.status !== 200) {
         console.log(api_call.status);
         console.log(api_call.statusText);
@@ -139,18 +138,35 @@ const getWeatherData = async (city, country) => {
             code: api_call.status,
             message: api_call.statusText
         };
-        console.log(JSON.stringify(errObject));
-        // return Promise.reject([api_call.status, api_call.statusText]);
         throw new Error(JSON.stringify(errObject));
-
-        // console.log(e);
     } else {
         return api_call.json();
     }
-    // console.log(response);
-    // console.log((response.main.temp - 273.15).toFixed(2));
-    // return response;
 };
+
+const getWeatherDataByLocation = async (lat, lon) =>
+    // {
+    // coords: { longitude: lon, latitude: lat }
+    // }
+
+    {
+        console.log(lon);
+        console.log(lat);
+        const api_call = await fetch(
+            `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_key}`
+        );
+        if (api_call.status !== 200) {
+            console.log(api_call.status);
+            console.log(api_call.statusText);
+            const errObject = {
+                code: api_call.status,
+                message: api_call.statusText
+            };
+            throw new Error(JSON.stringify(errObject));
+        } else {
+            return api_call.json();
+        }
+    };
 
 // Celsius = Kelvin - 273.15
 
@@ -219,7 +235,7 @@ const hideInputCityError = () => {
     inputError_div.classList.value = "hide";
 };
 
-const setWeather = e => {
+const setWeatherForCity = e => {
     e.preventDefault();
 
     const isCityEntered = checkCityInput();
@@ -229,29 +245,33 @@ const setWeather = e => {
         showEmptyCityError();
     } else {
         const { city, country } = state;
-        // let weather;
-        const res = getWeatherData(city, country);
+        const res = getWeatherDataByCity(city, country);
         res.then(data => {
-            console.log("asdasd");
+            setCityNameAndLocation(data);
             setTemperature(data);
         }).catch(e => {
-            // console.log(e + " Throwed an error");
-
             showInputCityError(e);
         });
-        // .catch(console.log(object));
-        // console.log(weather);
-        // weather.then(result => {
-        //     if (result.message !== undefined) {
-        //         console.log(result.message);
-        //         showInputCityError();
-        //     } else {
-        //         setTemperature(result);
-        //     }
-        // });
     }
-
-    // console.log(navigator.geolocation);
 };
 
-// setWeather();
+const setCityNameAndLocation = data => {
+    cityName_p.innerHTML = data.name;
+    longitude_span.innerHTML = data.coord.lon;
+    latitude_span.innerHTML = data.coord.lat;
+};
+
+const setWeatherForLocation = position => {
+    const {
+        coords: { latitude, longitude }
+    } = position;
+
+    const res = getWeatherDataByLocation(latitude, longitude);
+    res.then(data => {
+        console.log(data);
+        setCityNameAndLocation(data);
+        setTemperature(data);
+    });
+};
+
+// api.openweathermap.org/data/2.5/weather?lat=35&lon=139
