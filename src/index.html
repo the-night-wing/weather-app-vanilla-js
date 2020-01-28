@@ -17,15 +17,16 @@
 
         <h1 id="app-header"><i class="wi wi-day-sunny"></i> Weather APP<h1>
     </header>
-
-    <form id="location-input">
-        <input type="text" name="city" id="cityInput" autocomplete="off" placeholder="Your city">
-        <input type="text" name="country" id="countryInput" autocomplete="off" placeholder="Your country(optional)">
-        <input type="submit" value="Get Forecast" id="getWeather">
-    </form>
-    <div class="geolocation">
-        <span>OR</span>
-        <button id="geo-button"><i class="fas fa-map-marker-alt geo"></i> Identify your location</button>
+    <div class="set-location container">
+        <form id="location-input">
+            <input type="text" name="city" id="cityInput" autocomplete="off" placeholder="Your city">
+            <!-- <input type="text" name="country" id="countryInput" autocomplete="off" placeholder="Your country(optional)"> -->
+            <input type="submit" value="Get Forecast" id="getWeather">
+        </form>
+        <div class="geolocation">
+            <span>OR</span>
+            <button id="geo-button"><i class="fas fa-map-marker-alt geo"></i> Identify your location</button>
+        </div>
     </div>
     <div class="forecast-options">
         <p id="forecast-options-p">Choose what information do you need<i id="forecast-options-arrow"
@@ -33,7 +34,7 @@
         </p>
         <div class="checkboxes hide" id="forecast-checkboxes">
             <label>
-                <input type="checkbox" id="zalupa" name="actual-temp-cb" checked>
+                <input type="checkbox" name="actual-temp-cb" checked>
                 Actual Temperature
             </label>
             <label>
@@ -41,11 +42,11 @@
                 Feels Like
             </label>
             <label>
-                <input type="checkbox" name="min-temp-cb" checked>
+                <input type="checkbox" name="min-temp-cb">
                 Minimal Temperature
             </label>
             <label>
-                <input type="checkbox" name="max-temp-cb" checked>
+                <input type="checkbox" name="max-temp-cb">
                 Maximal Temperature
             </label>
             <label>
@@ -74,7 +75,7 @@
             <p class="temp">Actual temperature:
                 <span id="temp-act" class="val">1°C</span>
             </p>
-            <p class="temp">Min temp:
+            <p class="hide">Min temp:
                 <span id="temp-min" class="val">1°C</span>
             </p>
         </div>
@@ -82,7 +83,7 @@
             <p class="temp">Feels like:
                 <span id="temp-feels" class="val">1°C</span>
             </p>
-            <p class="temp">Max temp:
+            <p class="hide">Max temp:
                 <span id="temp-max" class="val">1°C</span>
             </p>
         </div>
@@ -108,7 +109,7 @@
         <p id="clouds"></p>
     </div>
 
-    <i class="wi wi-day-sunny"></i>
+    <!-- <i class="wi wi-day-sunny"></i> -->
 
     <script src="./app.js"></script>
 </body>

@@ -11,7 +11,7 @@ header {
 
 #location-input {
     text-align: center;
-    margin: 20px;
+    margin: 0 20px;
 }
 
 .temp-col {
@@ -42,9 +42,25 @@ header {
 body {
     /* background-image: url("../img//pexels-photo-rain.jpeg"); */
     // background-image: url("../img//pexels-photo-mountains.jpeg");
-    background-image: url("../img//pexels-photo-red-skies.jpeg");
-    background-repeat: repeat-y;
+    // background-image: url("../img//pexels-photo-red-skies.jpeg");
+    // background-repeat: repeat-y;
     /* color: rgb(216, 212, 212); */
+    background: rgb(2, 0, 36);
+    background: linear-gradient(
+        90deg,
+        rgba(2, 0, 36, 1) 0%,
+        rgba(73, 103, 182, 1) 0%,
+        rgba(70, 122, 235, 1) 100%
+    );
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
 }
 
 input[name="city"],
@@ -68,7 +84,9 @@ input[name="city"]:focus,
 input[name="country"]:focus {
     /* width: 100px; */
     background-color: transparent;
-    border-bottom: 2px solid rgb(81, 115, 189);
+    // border-bottom: 2px solid rgb(81, 115, 189);
+    border-bottom: 2px solid rgb(29, 182, 182);
+    // border-bottom: 2px solid teal;
 }
 
 input[name="city"]::placeholder,
@@ -107,12 +125,14 @@ input[type="submit"]:hover,
 
 #geo-button {
     margin: 0 20px;
+    margin-bottom: 8px;
+    vertical-align: middle;
 }
 
 .geolocation {
     color: white;
     font-size: 32px;
-    margin: 0 auto;
+    // margin: 0 auto;
     text-align: center;
 }
 
@@ -127,6 +147,14 @@ input[type="submit"]:hover,
         rgba(157, 59, 232, 0.3) 100%
     );
     border-radius: 15px;
+}
+@media only screen and (max-width: 900px) {
+    .forecast-options {
+        width: 700px;
+    }
+    .geolocation {
+        margin: 15px auto;
+    }
 }
 
 .forecast-options p {

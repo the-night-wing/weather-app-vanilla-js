@@ -14,7 +14,7 @@ const pressure_p = document.getElementById("pressure");
 const precipitation_p = document.getElementById("precipitation");
 const getWeather_but = document.getElementById("getWeather");
 const cityInput_inp = document.getElementById("cityInput");
-const countryInput_inp = document.getElementById("countryInput");
+// const countryInput_inp = document.getElementById("countryInput");
 const weatherLogo_icon = document.getElementById("weather-logo");
 const cityName_p = document.getElementById("city");
 const longitude_span = document.getElementById("lon");
@@ -58,7 +58,7 @@ const paragraphs = [
 ];
 
 let forecastOptions = false;
-getWeather_but.addEventListener("click", e => setWeatherForCity(e));
+getWeather_but.addEventListener("click", e => setWeatherByCity(e));
 
 const onCityChange = e => {
     state.city = e.target.value;
@@ -101,15 +101,10 @@ const onForecastOptionsClick = () => {
     }
 };
 
-const showCurrentPosition = position => {
-    console.log(position.coords.latitude);
-    console.log(position.coords.longitude);
-};
-
 const getGeolocation = () => {
     if (navigator.geolocation) {
         console.log("Support");
-        navigator.geolocation.getCurrentPosition(setWeatherForLocation);
+        navigator.geolocation.getCurrentPosition(setWeatherByLocation);
     } else {
         console.log("Doesn't support");
     }
@@ -118,7 +113,7 @@ const getGeolocation = () => {
 // getGeolocation();
 
 cityInput_inp.addEventListener("input", e => onCityChange(e));
-countryInput_inp.addEventListener("input", e => onCountryChange(e));
+// countryInput_inp.addEventListener("input", e => onCountryChange(e));
 
 geolocation_but.addEventListener("click", getGeolocation);
 
@@ -235,7 +230,7 @@ const hideInputCityError = () => {
     inputError_div.classList.value = "hide";
 };
 
-const setWeatherForCity = e => {
+const setWeatherByCity = e => {
     e.preventDefault();
 
     const isCityEntered = checkCityInput();
@@ -246,12 +241,17 @@ const setWeatherForCity = e => {
     } else {
         const { city, country } = state;
         const res = getWeatherDataByCity(city, country);
-        res.then(data => {
-            setCityNameAndLocation(data);
-            setTemperature(data);
-        }).catch(e => {
-            showInputCityError(e);
-        });
+        res.then(
+            data => {
+                console.log(data);
+                setCityNameAndLocation(data);
+                setTemperature(data);
+                setWeatherLogo(data);
+            },
+            e => {
+                showInputCityError(e);
+            }
+        );
     }
 };
 
@@ -261,7 +261,36 @@ const setCityNameAndLocation = data => {
     latitude_span.innerHTML = data.coord.lat;
 };
 
-const setWeatherForLocation = position => {
+const identifyWeatherIcon = data => {
+    const id = data.weather[0].id;
+    console.log(id);
+    switch (true) {
+        case id >= 200 && id <= 232:
+            return "wi wi-thuderstorm";
+        case id >= 300 && id <= 321:
+            return "wi wi-sleet";
+        case id >= 500 && id <= 531:
+            return "wi wi-storm-showers";
+        case id >= 600 && id <= 622:
+            return "wi wi-snow";
+        case id >= 701 && id <= 781:
+            return "wi wi-fog";
+        case id === 800:
+            return "wi wi-day-sunny";
+        default:
+            return "wi wi-day-fog";
+    }
+};
+
+const setWeatherLogo = data => {
+    console.log(identifyWeatherIcon(data));
+    weatherLogo_icon.classList.value = identifyWeatherIcon(data);
+    // console.log(data.weather[0].id);
+};
+
+const weathericon = {};
+
+const setWeatherByLocation = position => {
     const {
         coords: { latitude, longitude }
     } = position;
@@ -271,6 +300,7 @@ const setWeatherForLocation = position => {
         console.log(data);
         setCityNameAndLocation(data);
         setTemperature(data);
+        setWeatherLogo(data);
     });
 };
 
